@@ -1,0 +1,6 @@
+myenv
+.env
+*.pyc
+*.log
+*.csv
+*.json
