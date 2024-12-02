@@ -9,6 +9,7 @@ from sfn_blueprint import SFNFeatureCodeGeneratorAgent
 from sfn_blueprint import SFNCodeExecutorAgent
 from sfn_blueprint import SFNDataPostProcessor
 from agents.clean_suggestions_agent import SFNCleanSuggestionsAgent
+from config.model_config import DEFAULT_LLM_PROVIDER
 
 
 
@@ -40,8 +41,12 @@ def run_app():
     if uploaded_file is not None:
         if session.get('df') is None:
             with view.display_spinner('Loading data...'):
+
+                # Save the uploaded file temporarily and get its path
+                file_path = view.save_uploaded_file(uploaded_file)
+                logger.info(f'started loading saved file:{file_path}')
+                load_task = Task("Load the uploaded file", data=uploaded_file, path=file_path)
                 data_loader = SFNDataLoader()
-                load_task = Task("Load the uploaded file", data=uploaded_file)
                 df = data_loader.execute_task(load_task)
                 session.set('df', df)
                 logger.info(f"Data loaded successfully. Shape: {df.shape}")
@@ -57,7 +62,7 @@ def run_app():
     if session.get('df') is not None:
         if session.get('suggestions') is None:
             with view.display_spinner('🤖 AI is generating cleaning suggestions...'):
-                suggestion_generator = SFNCleanSuggestionsAgent()  
+                suggestion_generator = SFNCleanSuggestionsAgent(llm_provider=DEFAULT_LLM_PROVIDER)  
                 suggestion_task = Task("Generate cleaning suggestions", 
                                         data=session.get('df'))
                 suggestions = suggestion_generator.execute_task(suggestion_task)
@@ -75,7 +80,7 @@ def run_app():
 
 
             # Initialize agents
-            code_generator = SFNFeatureCodeGeneratorAgent()
+            code_generator = SFNFeatureCodeGeneratorAgent(llm_provider=DEFAULT_LLM_PROVIDER)
             code_executor = SFNCodeExecutorAgent()  
 
             # Application mode selection

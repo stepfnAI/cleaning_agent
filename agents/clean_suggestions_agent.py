@@ -2,15 +2,17 @@ from typing import List, Dict
 import pandas as pd
 from sfn_blueprint import SFNAgent
 from sfn_blueprint import Task
-from sfn_blueprint import SFNOpenAIClient
+from sfn_blueprint import SFNAIHandler
 from sfn_blueprint import SFNPromptManager
-from config.model_config import MODEL_CONFIG
+from config.model_config import MODEL_CONFIG, DEFAULT_LLM_MODEL, DEFAULT_LLM_PROVIDER
+
 import os
 
 class SFNCleanSuggestionsAgent(SFNAgent):
-    def __init__(self):
+    def __init__(self ,llm_provider: str):
         super().__init__(name="Clean Suggestion Generator", role="Data Cleaning Advisor")
-        self.client = SFNOpenAIClient()
+        self.ai_handler = SFNAIHandler()
+        self.llm_provider = llm_provider
         self.model_config = MODEL_CONFIG["clean_suggestions_generator"]
         parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
         prompt_config_path = os.path.join(parent_path, 'config', 'prompt_config.json')
@@ -60,24 +62,33 @@ class SFNCleanSuggestionsAgent(SFNAgent):
         # Get prompts using PromptManager
         system_prompt, user_prompt = self.prompt_manager.get_prompt(
             agent_type='clean_suggestions_generator',
-            llm_provider='openai',
+            llm_provider=DEFAULT_LLM_PROVIDER,
             **analysis
         )
         
-        response = self.client.chat.completions.create(
-            model=self.model_config["model"],
-            messages=[
+        # Prepare the configuration for the API call
+        configuration = {
+            "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            temperature=self.model_config["temperature"],
-            max_tokens=self.model_config["max_tokens"],
-            n=self.model_config["n"],
-            stop=self.model_config["stop"]
+            "temperature": self.model_config["temperature"],
+            "max_tokens": self.model_config["max_tokens"],
+            "n": self.model_config["n"],
+            "stop": self.model_config["stop"]
+        }
+
+        # Use the AI handler to route the request
+        response, token_cost_summary = self.ai_handler.route_to(
+            llm_provider=DEFAULT_LLM_PROVIDER, 
+            configuration=configuration, 
+            model=self.model_config['model']
         )
 
-        # Split the response into individual suggestions
-        suggestions = response.choices[0].message.content.strip().split('\n')
+        if self.llm_provider == 'cortex':
+            suggestions = response['choices'][0]['messages'].strip().split('\n')
+        else:
+            suggestions = response.choices[0].message.content.strip().split('\n')
         
         # Clean up suggestions (remove empty strings and leading/trailing whitespace)
         suggestions = [s.strip() for s in suggestions if s.strip()]
