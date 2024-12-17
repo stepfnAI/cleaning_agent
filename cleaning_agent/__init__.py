@@ -1,1 +1,3 @@
-# This file can be empty, it just needs to exist 
+from cleaning_agent.agents.clean_suggestions_agent import CleanSuggestionsAgent
+
+__all__ = ['CleanSuggestionsAgent'] 
