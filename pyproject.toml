@@ -15,7 +15,7 @@ dependencies = [
     "openai",
     "python-dotenv",
     "pandas",
-    "sfn-blueprint=0.4.2",
+    "sfn-blueprint>=0.4.2",
 ]
 
 [project.urls]
