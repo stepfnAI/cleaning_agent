@@ -3,3 +3,9 @@ myenv
 *.pyc
 *.log
 *.csv
+__pycache__/
+*.py[cod]
+*$py.class
+dist/
+build/
+*.egg-info/
