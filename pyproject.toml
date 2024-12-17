@@ -14,6 +14,8 @@ requires-python = ">=3.8"
 dependencies = [
     "openai",
     "python-dotenv",
+    "pandas",
+    "sfn-blueprint=0.4.2",
 ]
 
 [project.urls]
@@ -21,4 +23,4 @@ dependencies = [
 "Bug Tracker" = "https://github.com/stepfnAI/cleaning_agent/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["."]
+packages = ["cleaning_agent"]
