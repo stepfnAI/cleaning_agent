@@ -15,7 +15,7 @@ An AI-powered data cleaning tool that analyzes your dataset and provides intelli
 
 ### Prerequisites
 
-- Python 3.7+
+- Python 3.8+
 - OpenAI API key
 
 ### Installation
@@ -30,7 +30,7 @@ An AI-powered data cleaning tool that analyzes your dataset and provides intelli
 2. Create and activate a virtual environment:
 
 ```bash
-python -m venv myenv
+python -m venv myenv # or use python3 if you have multiple Python versions
 source myenv/bin/activate # Linux/Mac
 .\myenv\Scripts\activate # Windows
 ```
