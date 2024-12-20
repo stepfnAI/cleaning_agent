@@ -23,8 +23,8 @@ An AI-powered data cleaning tool that analyzes your dataset and provides intelli
 1. Clone the repository:
 
 ```bash
-    git clone [repository-url]
-    cd [repository-name]
+    git clone https://github.com/stepfnAI/data_cleaning_agent.git
+    cd data_cleaning_agent
 ```
 
 2. Create and activate a virtual environment using virtualenv:
