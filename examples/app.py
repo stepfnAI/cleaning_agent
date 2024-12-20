@@ -1,28 +1,30 @@
 import sys
 import os
 from sfn_blueprint import Task
-from sfn_blueprint import SFNStreamlitView
 from sfn_blueprint import SFNSessionManager
-from sfn_blueprint import SFNDataLoader
 from sfn_blueprint import setup_logger
 from sfn_blueprint import SFNFeatureCodeGeneratorAgent
 from sfn_blueprint import SFNCodeExecutorAgent
 from sfn_blueprint import SFNDataPostProcessor
-from cleaning_agent.agents.clean_suggestions_agent import SFNCleanSuggestionsAgent
+from cleaning_agent.clean_suggestions_agent import SFNCleanSuggestionsAgent
+from views.streamlit_views import StreamlitView
+from cleaning_agent.utils.custom_data_loader import CustomDataLoader
 
 
 
 def run_app():
     # Initialize view and session using sfn_blueprint
-    view = SFNStreamlitView(title = "Data Cleaning Advisor")
+    view = StreamlitView(title = "Data Cleaning Advisor")
     session = SFNSessionManager()
     
     col1, col2 = view.create_columns([7, 1])
     with col1:
         view.display_title()
     with col2:
-        if view.display_button("🔄", key="reset_button"):
+        if view.display_button("🔄 Reset", key="reset_button", use_container_width=True):
             session.clear()
+            if 'uploaded_file' in view.session_state:
+                del view.session_state['uploaded_file']
             view.rerun_script()
 
     # Setup logger
@@ -35,23 +37,33 @@ def run_app():
     view.display_header("Step 1: Data Loading and Preview")
     view.display_markdown("---")
     
-    uploaded_file = view.file_uploader("Choose a CSV or Excel file", accepted_types=["csv", "xlsx", "json", "parquet"])
-
-    if uploaded_file is not None:
-        if session.get('df') is None:
+    if session.get('df') is None:
+        # Only show file uploader if no data is loaded
+        uploaded_file = view.file_uploader(
+            "Choose a CSV or Excel file",
+            key="uploaded_file",
+            accepted_types=["csv", "xlsx", "json", "parquet"]
+        )
+        
+        if uploaded_file is not None:
             with view.display_spinner('Loading data...'):
-                data_loader = SFNDataLoader()
+                data_loader = CustomDataLoader()
                 load_task = Task("Load the uploaded file", data=uploaded_file)
                 df = data_loader.execute_task(load_task)
                 session.set('df', df)
+                session.set('file_name', uploaded_file.name)  # Store filename in session
                 logger.info(f"Data loaded successfully. Shape: {df.shape}")
                 view.show_message(f"✅ Data loaded successfully. Shape: {df.shape}", "success")
-                
-                # Display data preview
-                view.display_subheader("Data Preview")
-                view.display_dataframe(df.head())
-                view.display_header("Step 2: Generate cleaning suggestions and Apply Suggestions")
-        view.display_markdown("---")
+                view.rerun_script()  # Force refresh to hide uploader
+    else:
+        # Display the name of currently loaded file
+        view.show_message(f"📁 Current file: {session.get('file_name')}", "info")  # Use filename from session
+        
+        # Display data preview
+        view.display_subheader("Data Preview")
+        view.display_dataframe(session.get('df').head())
+        view.display_header("Step 2: Generate cleaning suggestions and Apply Suggestions")
+
 
 
     if session.get('df') is not None:
