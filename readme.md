@@ -34,10 +34,12 @@ python -m venv myenv # or use python3 if you have multiple Python versions
 source myenv/bin/activate # Linux/Mac
 .\myenv\Scripts\activate # Windows
 ```
-3. Install the package:
+
+3. Install the package in development mode:
 ```bash
 pip install -e .
 ```
+This step is crucial as it makes the `cleaning_agent` package importable by Python. Without this step, you'll get "ModuleNotFoundError" when trying to run the application.
 
 4. Set up your OpenAI API key:
 Create a `.env` file in the root directory and add:
