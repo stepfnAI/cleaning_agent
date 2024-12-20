@@ -6,10 +6,9 @@ from sfn_blueprint import setup_logger
 from sfn_blueprint import SFNFeatureCodeGeneratorAgent
 from sfn_blueprint import SFNCodeExecutorAgent
 from sfn_blueprint import SFNDataPostProcessor
-from cleaning_agent.clean_suggestions_agent import SFNCleanSuggestionsAgent
-from views.streamlit_views import StreamlitView
+from cleaning_agent.agents.clean_suggestions_agent import SFNCleanSuggestionsAgent
+from cleaning_agent.views.streamlit_views import StreamlitView
 from cleaning_agent.utils.custom_data_loader import CustomDataLoader
-
 
 
 def run_app():
