@@ -39,7 +39,6 @@ source myenv/bin/activate # Linux/Mac
 ```bash
 pip install -e .
 ```
-This step is crucial as it makes the `cleaning_agent` package importable by Python.
 
 4. Set up your OpenAI API key:
 Create a `.env` file in the root directory and add:
