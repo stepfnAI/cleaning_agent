@@ -20,4 +20,4 @@ dependencies = [
 "Bug Tracker" = "https://github.com/stepfnAI/cleaning_agent/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["."]
+packages = ["cleaning_agent"]

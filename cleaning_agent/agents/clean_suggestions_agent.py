@@ -4,7 +4,7 @@ from sfn_blueprint import SFNAgent
 from sfn_blueprint import Task
 from sfn_blueprint import SFNOpenAIClient
 from sfn_blueprint import SFNPromptManager
-from config.model_config import MODEL_CONFIG
+from cleaning_agent.config.model_config import MODEL_CONFIG
 import os
 
 class SFNCleanSuggestionsAgent(SFNAgent):
