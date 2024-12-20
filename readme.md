@@ -27,15 +27,18 @@ An AI-powered data cleaning tool that analyzes your dataset and provides intelli
     cd [repository-name]
 ```
 
-2. Create and activate a virtual environment:
+2. Create and activate a virtual environment using virtualenv:
 
 ```bash
-python -m venv myenv # or use python3 if you have multiple Python versions
-source myenv/bin/activate # Linux/Mac
-.\myenv\Scripts\activate # Windows
+pip install virtualenv                # Install virtualenv if not already installed
+virtualenv venv                       # Create virtual environment
+source venv/bin/activate             # Linux/Mac
+# OR
+.\venv\Scripts\activate              # Windows
 ```
 
-3. Install the package in development mode:
+3. Install the package in editable mode:
+
 ```bash
 pip install -e .
 ```
