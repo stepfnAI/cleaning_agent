@@ -48,7 +48,7 @@ OPENAI_API_KEY=your_openai_api_key
 ### Running the Application
 
 ```bash
-streamlit run examples/app.py
+streamlit run .\examples\app.py  
 ```
 
 ## 🔄 Workflow
