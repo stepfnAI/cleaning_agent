@@ -12,12 +12,7 @@ description = "A cleaning agent for StepFN AI"
 readme = "readme.md"
 requires-python = ">=3.8"
 dependencies = [
-    "openai",
-    "python-dotenv",
-    "pandas",
-    "sfn-blueprint>=0.4.2",
-    "protobuf>=3.20.0,<4.0.0",
-    "streamlit",
+    "sfn-blueprint==0.4.2",
 ]
 
 [project.urls]
