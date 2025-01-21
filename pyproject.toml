@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sfn-cleaning-agent"
+version = "0.1.0"
+authors = [
+    { name = "StepFN AI" },
+]
+description = "A cleaning agent for StepFN AI"
+readme = "readme.md"
+requires-python = ">=3.9, <3.12"
+dependencies = [
+    "sfn-blueprint==0.5.2",
+    "sfn-llm-client==0.1.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/stepfnAI/cleaning_agent"
+"Bug Tracker" = "https://github.com/stepfnAI/cleaning_agent/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cleaning_agent"]

@@ -1,2 +1,0 @@
-sfn_blueprint==0.5.1
-sfn-llm-client==0.1.0

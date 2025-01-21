@@ -15,7 +15,7 @@ An AI-powered data cleaning tool that analyzes your dataset and provides intelli
 
 ### Prerequisites
 
-- Python 3.7+
+- Python 3.9-3.11
 - OpenAI API key
 
 ### Installation
@@ -23,32 +23,38 @@ An AI-powered data cleaning tool that analyzes your dataset and provides intelli
 1. Clone the repository:
 
 ```bash
-    git clone [repository-url]
-    cd [repository-name]
+    git clone https://github.com/stepfnAI/data_cleaning_agent.git
+    cd data_cleaning_agent
 ```
 
-2. Create and activate a virtual environment:
+2. Create and activate a virtual environment using virtualenv:
 
 ```bash
-python -m venv myenv
-source myenv/bin/activate # Linux/Mac
-.\myenv\Scripts\activate # Windows
+pip install virtualenv                # Install virtualenv if not already installed
+virtualenv venv                       # Create virtual environment
+source venv/bin/activate             # Linux/Mac
+# OR
+.\venv\Scripts\activate              # Windows
 ```
-3. Install dependencies:
+
+3. Install the package in editable mode:
+
 ```bash
-pip install -r requirements.txt
+pip install -e .
 ```
 
 4. Set up your OpenAI API key:
+Create a `.env` file in the root directory and add:
 ```bash
-export OPENAI_API_KEY='your_openai_api_key'
+OPENAI_API_KEY=your_openai_api_key
 ```
 
 ### Running the Application
 
 ```bash
-streamlit run app.py
+streamlit run ./examples/app.py  
 ```
+
 
 ## 🔄 Workflow
 

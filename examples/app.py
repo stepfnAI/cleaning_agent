@@ -1,7 +1,7 @@
 import sys
 import os
 from sfn_blueprint import Task
-from views.streamlit_view import StreamlitCleaningAppView
+from cleaning_agent.views.streamlit_view import StreamlitCleaningAppView
 from sfn_blueprint import SFNSessionManager
 from sfn_blueprint import SFNDataLoader
 from sfn_blueprint import setup_logger
@@ -10,8 +10,8 @@ from sfn_blueprint import SFNValidateAndRetryAgent
 from sfn_blueprint import SFNCodeExecutorAgent
 from sfn_blueprint import SFNDataPostProcessor
 from sfn_blueprint import RetryLimitExceededError
-from agents.clean_suggestions_agent import SFNCleanSuggestionsAgent
-from config.model_config import DEFAULT_LLM_PROVIDER
+from cleaning_agent.agents.clean_suggestions_agent import SFNCleanSuggestionsAgent
+from cleaning_agent.config.model_config import DEFAULT_LLM_PROVIDER
 
 
 
